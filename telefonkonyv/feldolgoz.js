@@ -26,7 +26,8 @@ function beolvas() {
 function kiir() {
     $("article").empty(); //magat a tag-et meghagyja, csak a gyerek elemeket tavolitja el, remove() tag-eket is eltavolitja a gyerek elemekkel egyutt
     for (var i = 0; i < telefonkonyvem.length; i++) {
-        var ID = telefonkonyvem[i].nev;
+        var ID = telefonkonyvem[i].ID;
+        var nev = telefonkonyvem[i].nev;
         var tel = telefonkonyvem[i].tel;
         var kep = telefonkonyvem[i].kep;
         var elem = "<div><h2>" + nev + "</h2><p>" + tel + "</p><p>" + kep + "</p><button id='" + ID + "' class='torol'>Torol</button></div>";
