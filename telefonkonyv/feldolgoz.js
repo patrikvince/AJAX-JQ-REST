@@ -69,13 +69,13 @@ function adatTorol() {
     var ID = $(this).attr("id");
     console.log(ID);
     
-    
+    var aktelem = $(this).closest("div");
     $.ajax({
         type: "DELETE",
-        url: "torles.php"+ID,
+        url: "torles.php?="+ID,
         success: function () {
             console.log("Megtortent a torles");
-            $(this).closest("div").remove();
+            aktelem.remove();
         },
         error: function () {
             alert("Hiba az adatok torlesekor!");
