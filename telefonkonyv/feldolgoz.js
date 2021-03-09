@@ -4,6 +4,9 @@ $(function () {
     $("#beolvas").on("click", beolvas);
     $("#kuld").on("click", adatKuld);
     $("article").delegate(".torol", "click", adatTorol);
+    $("article").delegate(".szerkeszt", "click", adatSzerkeszt);
+    $("#megse").on("click", adatMegse);
+    $("#modosit").on("click", adatModosit);
 });
 
 var telefonkonyvem = [];
@@ -30,7 +33,8 @@ function kiir() {
         var nev = telefonkonyvem[i].nev;
         var tel = telefonkonyvem[i].tel;
         var kep = telefonkonyvem[i].kep;
-        var elem = "<div><h2>" + nev + "</h2><p>" + tel + "</p><p>" + kep + "</p><button id='" + ID + "' class='torol'>Torol</button></div>";
+        var elem = "<div><h2>" + nev + "</h2><p>" + tel + "</p><p>" + kep + "</p><button id='" + ID + "' class='torol'>Torol</button>\n\
+            <button id='" + i + "' class='szerkeszt'>Szerkeszt</button><hr></div>";
         $("article").append(elem);
     }
 
@@ -69,17 +73,55 @@ function adatTorol() {
     console.log("Meghivtam a torol metodust!");
     var ID = $(this).attr("id");
     console.log(ID);
-    
+
     var aktelem = $(this).closest("div");
     $.ajax({
         type: "DELETE",
-        url: "torles.php?="+ID,
+        url: "torles.php?=" + ID,
         success: function () {
             console.log("Megtortent a torles");
             aktelem.remove();
         },
         error: function () {
             alert("Hiba az adatok torlesekor!");
+        }
+    });
+}
+
+function adatSzerkeszt() {
+    console.log("Adat modosít!");
+    $(".szerkesztes").removeClass("elrejt");
+    var index = $(this).attr("id");
+
+    $("#id2").val(telefonkonyvem[index].ID);
+    $("#nev2").val(telefonkonyvem[index].nev);
+    $("#tel2").val(telefonkonyvem[index].tel);
+    $("#kep2").val(telefonkonyvem[index].kep);
+
+}
+
+function adatMegse() {
+    $(".szerkesztes").addClass("elrejt");
+}
+
+function adatModosit() {
+    var editSzemely = {
+        ID: $("#id2").val(),
+        nev: $("#nev2").val(),
+        tel: $("#tel2").val(),
+        kep: $("#kep2").val()
+    };
+    console.log("Módosít");
+    console.log(editSzemely);
+    $.ajax({
+        type: "PUT",
+        url: "modosit.php",
+        data: editSzemely,
+        success: function () {
+            beolvas();
+        },
+        error: function () {
+            alert("Hiba az adatok módosításakor!");
         }
     });
 }
